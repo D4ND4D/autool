@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Among Us Notes - By D4N</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 50%, #3a4450 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #fff;
+        }
+
+        
+        .setup-container, .game-container {
+            width: 100%;
+            max-width: 1100px;
+            background: linear-gradient(180deg, #5a6b7a 0%, #4a5a6a 100%);
+            border: 4px solid #2a2a2a;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 0 auto;
+        }
+
+        .game-container {
+            max-width: 1300px;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .title {
+            font-size: 2.8rem;
+            color: #fff;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5), 4px 4px 0px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            animation: slideInDown 0.7s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .subtitle {
+            font-size: 0.7rem;
+            color: #b0b8c0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        
+        .section-title {
+            font-size: 1rem;
+            margin: 30px 0 15px;
+            color: #ddd;
+            text-shadow: 1px 1px 0 #000;
+            border-left: 4px solid #ffaa44;
+            padding-left: 15px;
+        }
+
+        .map-select {
+            width: 100%;
+            padding: 15px;
+            background: #3a3f4a;
+            border: 3px solid #2a2a2a;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .color-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .color-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid #2a2a2a;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+        .color-btn.selected {
+            border-color: #ffaa44;
+            transform: scale(1.15);
+            box-shadow: 0 0 20px #ffaa44;
+        }
+        .color-btn.active {
+            border-color: #44ff44;
+            opacity: 1;
+        }
+        .color-btn.inactive {
+            opacity: 0.3;
+            filter: grayscale(0.8);
+        }
+        .color-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #ffaa44 0%, #ff6600 100%);
+            border: 3px solid #2a2a2a;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            padding: 18px 30px;
+            width: 100%;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #aa4400;
+            transition: all 0.1s ease;
+            margin-top: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .start-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 3px 0 #aa4400;
+        }
+        .start-btn:disabled {
+            opacity: 0.5;
+            transform: none;
+            box-shadow: 0 5px 0 #aa4400;
+            cursor: not-allowed;
+        }
+
+     
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: #3a4a5a;
+            border: 3px solid #2a2a2a;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        .map-name {
+            font-size: 1rem;
+            color: #ffaa44;
+        }
+        .round-indicator {
+            font-size: 1.4rem;
+            background: #2a2a2a;
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 2px solid #ffaa44;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            background: #3a3f4a;
+            border: 2px solid #666;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover {
+            background: #4a4f5a;
+            border-color: #ffaa44;
+        }
+
+        
+        .player-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .player-card {
+            position: relative;
+            background: linear-gradient(135deg, #555 0%, #444 100%);
+            border: 3px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .player-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+            pointer-events: none;
+        }
+
+        .player-card:hover {
+            transform: translateY(-8px) scale(1.04);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.2);
+            border-color: #555;
+        }
+
+        
+        .color-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+            transition: all 0.3s;
+        }
+
+        .player-card:hover .color-circle {
+            transform: scale(1.05);
+        }
+
+        .player-name {
+            font-size: 0.9rem;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+            text-transform: capitalize;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            margin: 5px 0;
+            font-weight: bold;
+            border: 2px solid #000;
+        }
+        .role-crewmate { background: #0d6efd; color: white; }
+        .role-impostor { background: #dc3545; color: white; }
+
+        .tag {
+            display: inline-block;
+            background: #6c757d;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.5rem;
+            margin: 2px;
+            border: 1px solid #000;
+        }
+
+        .location-entry {
+            font-size: 0.55rem;
+            margin: 3px 0;
+            background: #2a2a2a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            color: #ccc;
+        }
+
+        .dead-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            color: #dc3545;
+            font-weight: bold;
+            opacity: 0.6;
+            pointer-events: none;
+            text-shadow: 4px 4px 0 #000;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+            100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .your-color-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.2rem;
+            background: rgba(0,0,0,0.5);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid gold;
+        }
+
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: linear-gradient(180deg, #5a6b7a 0%, #4a5a6a 100%);
+            border: 4px solid #2a2a2a;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            color: white;
+            box-shadow: 0 20px 60px black;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #ffaa44;
+            padding-bottom: 10px;
+        }
+        .close-modal {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #ffaa44;
+        }
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .modal-section {
+            margin-bottom: 20px;
+        }
+        .modal-label {
+            font-size: 0.7rem;
+            margin-bottom: 10px;
+            color: #ffaa44;
+        }
+        .modal-btn {
+            background: #3a3f4a;
+            border: 2px solid #666;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            padding: 8px 12px;
+            margin: 4px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .modal-btn:hover {
+            background: #4a4f5a;
+            border-color: #ffaa44;
+        }
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 10px 0;
+        }
+        .custom-tag-input {
+            width: 100%;
+            padding: 8px;
+            background: #2a2a2a;
+            border: 2px solid #666;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            margin-top: 10px;
+        }
+        .location-list {
+            max-height: 150px;
+            overflow-y: auto;
+            background: #2a2a2a;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .location-item {
+            padding: 5px;
+            cursor: pointer;
+            border-bottom: 1px solid #444;
+            font-size: 0.55rem;
+        }
+        .location-item:hover {
+            background: #ffaa44;
+            color: black;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            font-size: 0.65rem;
+            color: #888;
+        }
+
+        
+        .color-red .color-circle { background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%); }
+        .color-blue .color-circle { background: linear-gradient(135deg, #4488ff 0%, #0066ff 100%); }
+        .color-green .color-circle { background: linear-gradient(135deg, #44ff44 0%, #00cc00 100%); }
+        .color-pink .color-circle { background: linear-gradient(135deg, #ff88dd 0%, #ff00ff 100%); }
+        .color-orange .color-circle { background: linear-gradient(135deg, #ffaa44 0%, #ff6600 100%); }
+        .color-yellow .color-circle { background: linear-gradient(135deg, #ffdd44 0%, #ffaa00 100%); }
+        .color-black .color-circle { background: linear-gradient(135deg, #333333 0%, #111111 100%); }
+        .color-white .color-circle { background: linear-gradient(135deg, #eeeeee 0%, #cccccc 100%); }
+        .color-purple .color-circle { background: linear-gradient(135deg, #aa44ff 0%, #6600ff 100%); }
+        .color-brown .color-circle { background: linear-gradient(135deg, #aa7744 0%, #664400 100%); }
+        .color-cyan .color-circle { background: linear-gradient(135deg, #44ffff 0%, #00ffff 100%); }
+        .color-lime .color-circle { background: linear-gradient(135deg, #88ff00 0%, #66cc00 100%); }
+        .color-maroon .color-circle { background: linear-gradient(135deg, #aa0000 0%, #660000 100%); }
+        .color-rose .color-circle { background: linear-gradient(135deg, #ff88aa 0%, #ff4488 100%); }
+        .color-banana .color-circle { background: linear-gradient(135deg, #ffff88 0%, #ffcc44 100%); }
+        .color-gray .color-circle { background: linear-gradient(135deg, #888888 0%, #444444 100%); }
+        .color-tan .color-circle { background: linear-gradient(135deg, #ddaa77 0%, #bb8844 100%); }
+        .color-coral .color-circle { background: linear-gradient(135deg, #ff8844 0%, #ff4466 100%); }
+    </style>
+</head>
+<body>
+    <!-- 67 -->
+    <div id="setupScreen" class="setup-container">
+        <div class="header-section">
+            <div class="title">Game Setup</div>
+            <div class="subtitle">Select Map & Colors</div>
+        </div>
+
+        <div class="section-title">1. Choose Map</div>
+        <select id="mapSelect" class="map-select">
+            <option value="">-- Select a map --</option>
+        </select>
+
+        <div class="section-title">2. Your Color</div>
+        <div id="yourColorPicker" class="color-grid"></div>
+
+        <div class="section-title">3. Active Colors in Lobby</div>
+        <div id="activeColorsPicker" class="color-grid"></div>
+
+        <button id="startGameBtn" class="start-btn" disabled>Start Game</button>
+    </div>
+
+    
+    <div id="gameScreen" class="game-container" style="display: none;">
+        <div class="game-header">
+            <span class="map-name" id="currentMapDisplay">Map: Skeld</span>
+            <span class="round-indicator" id="roundIndicator">Round 1</span>
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="nextRound()">Next Round</button>
+                <button class="nav-btn" onclick="resetGame()">Reset</button>
+                <button class="nav-btn" onclick="returnToSetup()">New Game</button>
+            </div>
+        </div>
+
+        <div id="playersGrid" class="player-grid"></div>
+
+        <div class="footer">
+            <span class="timer">Notes auto-save</span>
+        </div>
+    </div>
+
+    
+    <div id="playerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="modalPlayerName">Red</span>
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                
+                <div>
+                    <div class="modal-section">
+                        <div class="modal-label">Status</div>
+                        <button class="modal-btn" onclick="toggleAlive()">Toggle Alive/Dead</button>
+                    </div>
+
+                    <div class="modal-section">
+                        <div class="modal-label">Assign Role</div>
+                        <select id="roleSelect" class="map-select" style="font-size:0.6rem;" onchange="assignRole()">
+                            <option value="">-- None --</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-section">
+                        <div class="modal-label">Tags</div>
+                        <div id="predefinedTags" class="tag-group"></div>
+                        <input type="text" id="customTag" class="custom-tag-input" placeholder="Custom tag..." maxlength="20">
+                        <button class="modal-btn" onclick="addCustomTag()" style="margin-top:5px;">Add Tag</button>
+                        <div id="currentTags" class="tag-group" style="margin-top:10px;"></div>
+                    </div>
+                </div>
+
+                
+                <div>
+                    <div class="modal-section">
+                        <div class="modal-label">Record Location (Round <span id="currentRoundSpan">1</span>)</div>
+                        <div id="locationList" class="location-list"></div>
+                    </div>
+
+                    <div class="modal-section">
+                        <div class="modal-label">Death Location</div>
+                        <div id="deathLocationList" class="location-list"></div>
+                    </div>
+
+                    <div class="modal-section">
+                        <div class="modal-label">Location History</div>
+                        <div id="locationHistory" style="background:#2a2a2a; padding:10px; border-radius:8px; font-size:0.55rem;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+        const MAPS = {
+            'The Skeld': ['Cafeteria','Weapons','O2','Navigation','Shields','Communications','Storage','Admin','Electrical','Lower Engine','Upper Engine','Reactor','Security','MedBay'],
+            'MIRA HQ': ['Launchpad','MedBay','Locker Room','Decontamination','Reactor','Laboratory','Greenhouse','Admin','Cafeteria','Balcony','Storage','Communications','Office'],
+            'Polus': ['Dropship','Electrical','O2','Weapons','Communications','Storage','Office','Admin','Specimen Room','Laboratory','Decontamination','Security'],
+            'The Airship': ['Vault','Cockpit','Armory','Viewing Deck','Brig','Records','Lounge','Cargo Bay','Medical','Engine Room','Kitchen','Main Hall','Showers','Electrical','Security','Communications','Gap Room'],
+            'The Fungle': ['Beach','Cafeteria','Kitchen','Laboratory','Greenhouse','Jungle','High Ground','Dropship','Storage','Reactor','Communications','Lookout']
+        };
+
+        
+        const PLAYER_COLORS = [
+            'red', 'blue', 'green', 'pink', 'orange', 'yellow', 'black', 'white',
+            'purple', 'brown', 'cyan', 'lime', 'maroon', 'rose', 'banana', 'gray', 'tan', 'coral'
+        ];
+
+        const ROLES = {
+            'Crewmate':'crewmate','Engineer':'crewmate','Scientist':'crewmate','Guardian Angel':'crewmate','Noisemaker':'crewmate','Tracker':'crewmate',
+            'Impostor':'impostor','Shapeshifter':'impostor','Phantom':'impostor'
+        };
+
+        const PREDEFINED_TAGS = ['Sus','Clear','fucking idiot','Safe','Faking Tasks','Vented'];
+
+        
+        let gameState = {
+            map: null,
+            playerColor: null,
+            activeColors: [],
+            currentRound: 1,
+            players: {}  
+        };
+
+        let currentModalColor = null;
+
+        
+        window.onload = function() {
+            populateMapSelect();
+            populateColorPickers();
+            populateRoleSelect();
+            populatePredefinedTags();
+            loadGame();
+        };
+
+        function populateMapSelect() {
+            const select = document.getElementById('mapSelect');
+            for (let map in MAPS) {
+                let opt = document.createElement('option');
+                opt.value = map;
+                opt.textContent = map;
+                select.appendChild(opt);
+            }
+        }
+
+        function populateColorPickers() {
+            const yourDiv = document.getElementById('yourColorPicker');
+            const activeDiv = document.getElementById('activeColorsPicker');
+            PLAYER_COLORS.forEach(color => {
+                
+                let btn = document.createElement('div');
+                btn.className = `color-btn color-${color}`;
+                btn.style.backgroundColor = color; 
+                btn.dataset.color = color;
+                btn.onclick = () => selectYourColor(btn);
+                yourDiv.appendChild(btn);
+
+                
+                let btn2 = document.createElement('div');
+                btn2.className = `color-btn color-${color} inactive`;  
+                btn2.style.backgroundColor = color;
+                btn2.dataset.color = color;
+                btn2.onclick = () => toggleActiveColor(btn2);
+                activeDiv.appendChild(btn2);
+            });
+        }
+
+        function populateRoleSelect() {
+            const select = document.getElementById('roleSelect');
+            for (let role in ROLES) {
+                let opt = document.createElement('option');
+                opt.value = role;
+                opt.textContent = role;
+                select.appendChild(opt);
+            }
+        }
+
+        function populatePredefinedTags() {
+            const container = document.getElementById('predefinedTags');
+            PREDEFINED_TAGS.forEach(tag => {
+                let span = document.createElement('span');
+                span.className = 'tag';
+                span.textContent = tag;
+                span.onclick = () => addTag(tag);
+                container.appendChild(span);
+            });
+        }
+
+        
+        function selectYourColor(btn) {
+            document.querySelectorAll('#yourColorPicker .color-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            gameState.playerColor = btn.dataset.color;
+            checkStartEnabled();
+        }
+
+        function toggleActiveColor(btn) {
+            if (btn.classList.contains('active')) {
+                btn.classList.remove('active');
+                btn.classList.add('inactive');
+                gameState.activeColors = gameState.activeColors.filter(c => c !== btn.dataset.color);
+            } else {
+                btn.classList.remove('inactive');
+                btn.classList.add('active');
+                gameState.activeColors.push(btn.dataset.color);
+            }
+            checkStartEnabled();
+        }
+
+        function checkStartEnabled() {
+            const map = document.getElementById('mapSelect').value;
+            const startBtn = document.getElementById('startGameBtn');
+            startBtn.disabled = !(map && gameState.playerColor && gameState.activeColors.length > 0);
+        }
+
+        function startGame() {
+            gameState.map = document.getElementById('mapSelect').value;
+            
+            gameState.players = {};
+            gameState.activeColors.forEach(color => {
+                gameState.players[color] = {
+                    isAlive: true,
+                    role: null,
+                    tags: [],
+                    locations: {},
+                    deathLocation: null,
+                    deathRound: null
+                };
+            });
+            gameState.currentRound = 1;
+            saveGame();
+
+            
+            document.getElementById('setupScreen').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+            document.getElementById('currentMapDisplay').textContent = `Map: ${gameState.map}`;
+            updatePlayersGrid();
+        }
+
+        
+        function updatePlayersGrid() {
+            const grid = document.getElementById('playersGrid');
+            grid.innerHTML = '';
+            gameState.activeColors.forEach(color => {
+                const player = gameState.players[color];
+                const card = document.createElement('div');
+                card.className = `player-card color-${color} ${player.isAlive ? '' : 'dead'}`;
+                card.id = `player-${color}`;
+                card.onclick = () => openPlayerModal(color);
+
+                
+                const circle = document.createElement('div');
+                circle.className = 'color-circle';
+                card.appendChild(circle);
+
+                
+                const name = document.createElement('div');
+                name.className = 'player-name';
+                name.textContent = color;
+                card.appendChild(name);
+
+                
+                if (color === gameState.playerColor) {
+                    const you = document.createElement('span');
+                    you.className = 'your-color-indicator';
+                    you.textContent = '👑';
+                    card.appendChild(you);
+                }
+
+                
+                if (player.role) {
+                    const roleSpan = document.createElement('span');
+                    roleSpan.className = `role-badge role-${ROLES[player.role]}`;
+                    roleSpan.textContent = player.role;
+                    card.appendChild(roleSpan);
+                }
+
+                
+                if (player.tags.length > 0) {
+                    const tagsDiv = document.createElement('div');
+                    tagsDiv.style.marginTop = '5px';
+                    player.tags.forEach(t => {
+                        let tag = document.createElement('span');
+                        tag.className = 'tag';
+                        tag.textContent = t;
+                        tagsDiv.appendChild(tag);
+                    });
+                    card.appendChild(tagsDiv);
+                }
+
+                
+                const locDiv = document.createElement('div');
+                locDiv.style.marginTop = '5px';
+                Object.entries(player.locations).forEach(([r, loc]) => {
+                    let span = document.createElement('span');
+                    span.className = 'location-entry';
+                    span.textContent = `R${r}:${loc}`;
+                    locDiv.appendChild(span);
+                });
+                if (player.deathLocation) {
+                    let deathSpan = document.createElement('span');
+                    deathSpan.className = 'location-entry';
+                    deathSpan.style.background = '#dc3545';
+                    deathSpan.textContent = `💀R${player.deathRound}:${player.deathLocation}`;
+                    locDiv.appendChild(deathSpan);
+                }
+                card.appendChild(locDiv);
+
+                
+                if (!player.isAlive) {
+                    const dead = document.createElement('div');
+                    dead.className = 'dead-overlay';
+                    dead.textContent = '✗';
+                    card.appendChild(dead);
+                }
+
+                grid.appendChild(card);
+            });
+        }
+
+        
+        function openPlayerModal(color) {
+            currentModalColor = color;
+            const player = gameState.players[color];
+            document.getElementById('modalPlayerName').textContent = color;
+            document.getElementById('currentRoundSpan').textContent = gameState.currentRound;
+            document.getElementById('roleSelect').value = player.role || '';
+
+            
+            updateCurrentTagsDisplay();
+
+            
+            const locations = MAPS[gameState.map];
+            const locList = document.getElementById('locationList');
+            const deathList = document.getElementById('deathLocationList');
+            locList.innerHTML = '';
+            deathList.innerHTML = '';
+            locations.forEach(loc => {
+                let item = document.createElement('div');
+                item.className = 'location-item';
+                item.textContent = loc;
+                item.onclick = () => recordLocation(loc);
+                locList.appendChild(item);
+
+                let item2 = document.createElement('div');
+                item2.className = 'location-item';
+                item2.textContent = loc;
+                item2.onclick = () => markDeathLocation(loc);
+                deathList.appendChild(item2);
+            });
+
+            
+            const historyDiv = document.getElementById('locationHistory');
+            let historyHtml = '';
+            Object.entries(player.locations).forEach(([r, loc]) => {
+                historyHtml += `<div>📍 Round ${r}: ${loc}</div>`;
+            });
+            if (player.deathLocation) {
+                historyHtml += `<div style="color:#ff8888;">💀 Died R${player.deathRound}: ${player.deathLocation}</div>`;
+            }
+            if (!historyHtml) historyHtml = '<div>No locations recorded</div>';
+            historyDiv.innerHTML = historyHtml;
+
+            document.getElementById('playerModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('playerModal').style.display = 'none';
+        }
+
+        function updateCurrentTagsDisplay() {
+            const player = gameState.players[currentModalColor];
+            const container = document.getElementById('currentTags');
+            container.innerHTML = '';
+            player.tags.forEach(tag => {
+                let span = document.createElement('span');
+                span.className = 'tag';
+                span.textContent = tag + ' ✕';
+                span.onclick = () => removeTag(tag);
+                container.appendChild(span);
+            });
+        }
+
+        
+        function toggleAlive() {
+            const player = gameState.players[currentModalColor];
+            player.isAlive = !player.isAlive;
+            if (!player.isAlive && !player.deathRound) {
+                player.deathRound = gameState.currentRound;
+            }
+            saveGame();
+            updatePlayersGrid();
+            closeModal();
+        }
+
+        function assignRole() {
+            const role = document.getElementById('roleSelect').value;
+            gameState.players[currentModalColor].role = role || null;
+            saveGame();
+            updatePlayersGrid();
+        }
+
+        function addTag(tag) {
+            const player = gameState.players[currentModalColor];
+            if (!player.tags.includes(tag)) {
+                player.tags.push(tag);
+                saveGame();
+                updateCurrentTagsDisplay();
+                updatePlayersGrid();
+            }
+        }
+
+        function addCustomTag() {
+            const input = document.getElementById('customTag');
+            const tag = input.value.trim();
+            if (tag && tag.length <= 20) {
+                addTag(tag);
+                input.value = '';
+            }
+        }
+
+        function removeTag(tag) {
+            const player = gameState.players[currentModalColor];
+            player.tags = player.tags.filter(t => t !== tag);
+            saveGame();
+            updateCurrentTagsDisplay();
+            updatePlayersGrid();
+        }
+
+        function recordLocation(location) {
+            const player = gameState.players[currentModalColor];
+            player.locations[gameState.currentRound] = location;
+            saveGame();
+            updatePlayersGrid();
+            
+            const historyDiv = document.getElementById('locationHistory');
+            let html = '';
+            Object.entries(player.locations).forEach(([r, loc]) => {
+                html += `<div>📍 Round ${r}: ${loc}</div>`;
+            });
+            if (player.deathLocation) {
+                html += `<div style="color:#ff8888;">💀 Died R${player.deathRound}: ${player.deathLocation}</div>`;
+            }
+            historyDiv.innerHTML = html;
+        }
+
+        function markDeathLocation(location) {
+            const player = gameState.players[currentModalColor];
+            player.deathLocation = location;
+            player.isAlive = false;
+            player.deathRound = gameState.currentRound;
+            saveGame();
+            updatePlayersGrid();
+            closeModal();
+        }
+
+        
+        function nextRound() {
+            gameState.currentRound++;
+            document.getElementById('roundIndicator').textContent = `Round ${gameState.currentRound}`;
+            saveGame();
+        }
+
+        function resetGame() {
+            if (confirm('Reset all notes for this game?')) {
+                gameState.players = {};
+                gameState.activeColors.forEach(color => {
+                    gameState.players[color] = {
+                        isAlive: true,
+                        role: null,
+                        tags: [],
+                        locations: {},
+                        deathLocation: null,
+                        deathRound: null
+                    };
+                });
+                gameState.currentRound = 1;
+                document.getElementById('roundIndicator').textContent = 'Round 1';
+                saveGame();
+                updatePlayersGrid();
+            }
+        }
+
+        function returnToSetup() {
+            if (confirm('Return to setup? Current game will be saved.')) {
+                document.getElementById('gameScreen').style.display = 'none';
+                document.getElementById('setupScreen').style.display = 'block';
+            }
+        }
+
+        
+        function saveGame() {
+            localStorage.setItem('amongUsNotes', JSON.stringify(gameState));
+        }
+
+        function loadGame() {
+            const saved = localStorage.getItem('amongUsNotes');
+            if (saved) {
+                try {
+                    gameState = JSON.parse(saved);
+                    
+                    if (gameState.map) {
+                        document.getElementById('mapSelect').value = gameState.map;
+                    }
+                    if (gameState.playerColor) {
+                        document.querySelectorAll('#yourColorPicker .color-btn').forEach(btn => {
+                            if (btn.dataset.color === gameState.playerColor) btn.classList.add('selected');
+                        });
+                    }
+                    if (gameState.activeColors) {
+                        document.querySelectorAll('#activeColorsPicker .color-btn').forEach(btn => {
+                            if (gameState.activeColors.includes(btn.dataset.color)) {
+                                btn.classList.add('active');
+                                btn.classList.remove('inactive');
+                            } else {
+                                btn.classList.add('inactive');
+                                btn.classList.remove('active');
+                            }
+                        });
+                    }
+                    if (gameState.map && gameState.activeColors.length > 0) {
+                        
+                        document.getElementById('setupScreen').style.display = 'none';
+                        document.getElementById('gameScreen').style.display = 'block';
+                        document.getElementById('currentMapDisplay').textContent = `Map: ${gameState.map}`;
+                        document.getElementById('roundIndicator').textContent = `Round ${gameState.currentRound || 1}`;
+                        updatePlayersGrid();
+                    }
+                } catch (e) {}
+            }
+            checkStartEnabled();
+        }
+
+        
+        document.getElementById('startGameBtn').onclick = startGame;
+        window.selectYourColor = selectYourColor;
+        window.toggleActiveColor = toggleActiveColor;
+        window.nextRound = nextRound;
+        window.resetGame = resetGame;
+        window.returnToSetup = returnToSetup;
+        window.openPlayerModal = openPlayerModal;
+        window.closeModal = closeModal;
+        window.toggleAlive = toggleAlive;
+        window.assignRole = assignRole;
+        window.addTag = addTag;
+        window.addCustomTag = addCustomTag;
+        window.removeTag = removeTag;
+        window.recordLocation = recordLocation;
+        window.markDeathLocation = markDeathLocation;
+    </script>
+</body>
+</html>
